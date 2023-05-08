@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Alert } from 'react-native';
 
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
+import { Realm, useApp } from '@realm/react';
 
 import backgroundImg from '@assets/background.png';
 
@@ -10,12 +12,14 @@ import { Button } from '@components/Button';
 import { Container, Slogan, Title } from './styles';
 
 import { ANDROID_CLIENT_ID, IOS_CLIENT_ID } from '@env'
-import { useEffect } from 'react';
 
 WebBrowser.maybeCompleteAuthSession(); // cuidar da interface do navegador que vai abrir fora do app para autenticação
 
 export function SignIn() {
     const [isAuthenticating, setIsAuthenticating] = useState(false)
+
+    const app = useApp()
+
     const [_, response, googleSignIn] = Google.useAuthRequest({
         androidClientId: ANDROID_CLIENT_ID, // atribuindo a chave android
         iosClientId: IOS_CLIENT_ID, // atribuindo chave ios
@@ -34,8 +38,26 @@ export function SignIn() {
 
     useEffect(() => { // ficar observando o response (se for sucess quer dizer que usuário conseguiu fazer autenticação)
         if (response?.type === 'success') {
-            if (response.authentication?.idToken) {
-                console.log("token", response.authentication?.idToken)
+            // demonstração de como pegar e utilizar o token
+            /*if (response.authentication?.idToken) { // pegando IDtoken
+                fetch(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${response.authentication?.idToken}`) // fazendo uma requisição com o token
+                    .then(response => response.json())
+                    .then(console.log)
+            } else {
+                Alert.alert('Entrar', 'Não foi possível conectar-se a sua conta google')
+                setIsAuthenticating(false);
+            } */
+            if (response.authentication?.idToken) { // utilizando o Jwt do Atlas
+                const credentials = Realm.Credentials.jwt(response.authentication.idToken);
+
+                app.logIn(credentials).catch((error) => {
+                    console.log("error --> ", error)
+                    Alert.alert('Entrar', 'Não foi possível conectar-se a sua conta google')
+                    setIsAuthenticating(false);
+                })
+            } else {
+                Alert.alert('Entrar', 'Não foi possível conectar-se a sua conta google')
+                setIsAuthenticating(false);
             }
         }
     }, [response])
