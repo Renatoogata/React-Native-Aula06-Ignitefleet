@@ -4,7 +4,6 @@ import { Image } from "expo-image"
 export const Container = styled.View`
     width: 100%;
     padding: 32px;
-    padding-top: 42px;
     flex-direction: row;
     align-items: center;
 

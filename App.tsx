@@ -1,5 +1,5 @@
 import { StatusBar } from 'react-native';
-
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { ThemeProvider } from 'styled-components/native'
 import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto';
 
@@ -28,16 +28,19 @@ export default function App() {
       id={REALM_APP_ID}
     >
       <ThemeProvider theme={theme}>
-        <StatusBar
-          barStyle="light-content"
-          backgroundColor="transparent"
-          translucent
-        />
-        <UserProvider // responsável pela parte de autenticação,
-          fallback={SignIn} // se não tiver usuário autentiado, ele chama o signIn
+        <SafeAreaProvider // fazendo o aplicativo encaixar dentro a area segura do smartphone(exluir notchs etc)
         >
-          <Routes />
-        </UserProvider>
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor="transparent"
+            translucent
+          />
+          <UserProvider // responsável pela parte de autenticação,
+            fallback={SignIn} // se não tiver usuário autentiado, ele chama o signIn
+          >
+            <Routes />
+          </UserProvider>
+        </SafeAreaProvider>
       </ThemeProvider>
     </AppProvider>
   )
