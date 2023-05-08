@@ -11,7 +11,7 @@ import theme from '@theme/index';
 import { Loading } from '@components/Loading';
 
 import { SignIn } from "@screens/SignIn";
-import { Home } from '@screens/Home';
+import { Routes } from '@routes/index';
 
 
 export default function App() {
@@ -36,7 +36,7 @@ export default function App() {
         <UserProvider // responsável pela parte de autenticação,
           fallback={SignIn} // se não tiver usuário autentiado, ele chama o signIn
         >
-          <Home />
+          <Routes />
         </UserProvider>
       </ThemeProvider>
     </AppProvider>
