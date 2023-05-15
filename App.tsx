@@ -30,6 +30,7 @@ export default function App() {
     >
       <ThemeProvider theme={theme}>
         <SafeAreaProvider // fazendo o aplicativo encaixar dentro a area segura do smartphone(exluir notchs etc)
+          style={{ flex: 1, backgroundColor: theme.COLORS.GRAY_800 }}
         >
           <StatusBar
             barStyle="light-content"
