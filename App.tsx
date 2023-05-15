@@ -8,11 +8,12 @@ import { AppProvider, UserProvider } from '@realm/react'
 
 import theme from '@theme/index';
 
-import { Loading } from '@components/Loading';
 
-import { SignIn } from "@screens/SignIn";
+import { RealmProvider } from '@libs/realm';
 import { Routes } from '@routes/index';
+import { SignIn } from "@screens/SignIn";
 
+import { Loading } from '@components/Loading';
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold });
@@ -38,7 +39,9 @@ export default function App() {
           <UserProvider // responsável pela parte de autenticação,
             fallback={SignIn} // se não tiver usuário autentiado, ele chama o signIn
           >
-            <Routes />
+            <RealmProvider>
+              <Routes />
+            </RealmProvider>
           </UserProvider>
         </SafeAreaProvider>
       </ThemeProvider>

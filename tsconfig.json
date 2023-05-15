@@ -19,6 +19,9 @@
       "@routes/*": [
         "./src/routes/*"
       ],
+      "@libs/*": [
+        "./src/libs/*"
+      ],
     }
   }
 }
