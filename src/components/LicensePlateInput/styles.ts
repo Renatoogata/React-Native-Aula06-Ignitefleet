@@ -15,7 +15,7 @@ export const Label = styled.Text`
 `;
 
 export const Input = styled.TextInput`
-  color: background-color: ${({ theme }) => theme.COLORS.GRAY_200};
+  color: ${({ theme }) => theme.COLORS.GRAY_200};
   font-size: ${({ theme }) => theme.FONT_SIZE.XXXL}px;
   font-family: ${({ theme }) => theme.FONT_FAMILY.BOLD};
 
