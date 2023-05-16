@@ -38,10 +38,14 @@ export function Home() {
     }
 
     useEffect(() => {
+        fetchVehicleInUse()
+    }, []);
+
+    useEffect(() => {
         realm.addListener('change', () => fetchVehicleInUse()) // change(quando mudar alguma coisa no banco chamar o fetchVehicleInUse)
 
         return () => realm.removeListener('change', fetchVehicleInUse) // deletar o Listener da memória
-    }, [])
+    }, []);
 
     return (
         <Container>
