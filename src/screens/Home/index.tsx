@@ -45,7 +45,7 @@ export function Home() {
             const response = historic.filtered("status = 'arrival' SORT(created_at DESC)"); // pegando os registros com status 'arrival' ordenando do mais recente
             const formatedHistoric = response.map((item) => {
                 return ({
-                    id: item!.toString(),
+                    id: item._id!.toString(),
                     licensePlate: item.license_plate,
                     isSync: false,
                     created: dayjs(item.created_at).format('[Saída em] DD/MM/YYYY [às] HH:mm') //formatando data
@@ -58,6 +58,10 @@ export function Home() {
             console.log(error);
             Alert.alert('Histórico', 'Não foi possível carregar o histórico');
         }
+    }
+
+    function handleHistoricDetails(id: string) {
+        navigate('arrival', { id });
     }
 
     useEffect(() => {
@@ -94,6 +98,7 @@ export function Home() {
                     renderItem={({ item }) => (
                         <HistoricCard
                             data={item}
+                            onPress={() => handleHistoricDetails(item.id)}
                         />
                     )}
                     showsVerticalScrollIndicator={false}
