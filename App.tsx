@@ -6,6 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { ThemeProvider } from 'styled-components/native'
 import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto';
 import { WifiSlash } from 'phosphor-react-native';
+import { useNetInfo } from '@react-native-community/netinfo'
 
 import { REALM_APP_ID } from '@env';
 import { AppProvider, UserProvider } from '@realm/react'
@@ -22,6 +23,7 @@ import { TopMessage } from '@components/TopMessage';
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold });
+  const netInfo = useNetInfo(); // verificar se existe conexão com internet
 
   if (!fontsLoaded) {
     return (
@@ -43,10 +45,13 @@ export default function App() {
             translucent
           />
 
-          <TopMessage
-            title='Você está offline.'
-            icon={WifiSlash}
-          />
+          {
+            !netInfo.isConnected &&
+            <TopMessage
+              title='Você está offline.'
+              icon={WifiSlash}
+            />
+          }
 
           <UserProvider // responsável pela parte de autenticação,
             fallback={SignIn} // se não tiver usuário autentiado, ele chama o signIn
