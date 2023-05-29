@@ -12,7 +12,7 @@ import { AppProvider, UserProvider } from '@realm/react'
 import theme from '@theme/index';
 
 
-import { RealmProvider } from '@libs/realm';
+import { RealmProvider, syncConfig } from '@libs/realm';
 import { Routes } from '@routes/index';
 import { SignIn } from "@screens/SignIn";
 
@@ -43,7 +43,10 @@ export default function App() {
           <UserProvider // responsável pela parte de autenticação,
             fallback={SignIn} // se não tiver usuário autentiado, ele chama o signIn
           >
-            <RealmProvider>
+            <RealmProvider
+              sync={syncConfig} // estratégia de sincronização com o banco de dados
+              fallback={Loading} // enquanto estiver no processo de carregamento do banco, mostrar o componente de loading
+            >
               <Routes />
             </RealmProvider>
           </UserProvider>
