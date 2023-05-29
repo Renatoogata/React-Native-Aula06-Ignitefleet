@@ -5,6 +5,7 @@ import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { ThemeProvider } from 'styled-components/native'
 import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto';
+import { WifiSlash } from 'phosphor-react-native';
 
 import { REALM_APP_ID } from '@env';
 import { AppProvider, UserProvider } from '@realm/react'
@@ -17,6 +18,7 @@ import { Routes } from '@routes/index';
 import { SignIn } from "@screens/SignIn";
 
 import { Loading } from '@components/Loading';
+import { TopMessage } from '@components/TopMessage';
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold });
@@ -40,6 +42,12 @@ export default function App() {
             backgroundColor="transparent"
             translucent
           />
+
+          <TopMessage
+            title='Você está offline.'
+            icon={WifiSlash}
+          />
+
           <UserProvider // responsável pela parte de autenticação,
             fallback={SignIn} // se não tiver usuário autentiado, ele chama o signIn
           >
