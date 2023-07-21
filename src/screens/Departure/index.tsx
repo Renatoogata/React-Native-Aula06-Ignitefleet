@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { TextInput, ScrollView, Alert } from "react-native"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import { Car } from "phosphor-react-native"
 
 import { useNavigation } from "@react-navigation/native"
 
@@ -19,8 +20,11 @@ import { Button } from "@components/Button"
 import { Header } from "@components/Header"
 import { LicensePlateInput } from "@components/LicensePlateInput"
 import { TextAreaInput } from "@components/TextAreaInput"
+import { Loading } from "@components/Loading"
+import { LocationInfo } from "@components/LocationInfo"
 
 import { licensePlateValidate } from "@utils/licensePlateValidate"
+import { getAdressLocation } from "@utils/getAddressLocation"
 
 import { Container, Content, Message } from "./styles"
 
@@ -28,6 +32,8 @@ export function Departure() {
   const [description, setDescription] = useState("")
   const [licensePlate, setLicensePlate] = useState("")
   const [isRegistering, setIsRegistering] = useState(false)
+  const [isLoadingLocation, setIsLoadingLocation] = useState(true)
+  const [currentAddress, setCurrentAddress] = useState<null | string>(null)
 
   const [locationForegroundPermission, requestLocationForegroundPermission] =
     useForegroundPermissions()
@@ -99,11 +105,21 @@ export function Departure() {
         timeInterval: 1000
       },
       location => {
-        console.log(location)
+        getAdressLocation(location.coords)
+          .then(address => {
+            if (address) {
+              setCurrentAddress(address)
+            }
+          })
+          .finally(() => setIsLoadingLocation(false))
       }
     ).then(response => (subscription = response))
 
-    return () => subscription.remove()
+    return () => {
+      if (subscription) {
+        subscription.remove()
+      }
+    }
   }, [locationForegroundPermission])
 
   if (!locationForegroundPermission?.granted) {
@@ -119,6 +135,10 @@ export function Departure() {
     )
   }
 
+  if (isLoadingLocation) {
+    return <Loading />
+  }
+
   return (
     <Container>
       <Header title="Saída" />
@@ -126,6 +146,14 @@ export function Departure() {
       <KeyboardAwareScrollView extraHeight={100}>
         <ScrollView>
           <Content>
+            {currentAddress && (
+              <LocationInfo
+                icon={Car}
+                label="Localização atual"
+                description={currentAddress}
+              />
+            )}
+
             <LicensePlateInput
               ref={licensePlateRef} // atribuindo uma ref criada
               label="Placa do veículo"
