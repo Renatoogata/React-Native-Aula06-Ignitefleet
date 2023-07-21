@@ -1,13 +1,13 @@
-import { NavigationContainer } from '@react-navigation/native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import Toast from 'react-native-toast-message'
+import { NavigationContainer } from "@react-navigation/native"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
+import Toast from "react-native-toast-message"
 
-import { TopMessage } from '@components/TopMessage'
+import { TopMessage } from "@components/TopMessage"
 
-import { AppRoutes } from './app.routes'
+import { AppRoutes } from "./app.routes"
 
 export function Routes() {
-  const insets = useSafeAreaInsets();
+  const insets = useSafeAreaInsets()
 
   return (
     <NavigationContainer>

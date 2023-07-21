@@ -1,8 +1,7 @@
-import { Dimensions } from 'react-native';
-import styled from 'styled-components/native';
+import { Dimensions } from "react-native"
+import styled from "styled-components/native"
 
-
-const dimensions = Dimensions.get('window'); // pegando dimensões da tela
+const dimensions = Dimensions.get("window") // pegando dimensões da tela
 export const Container = styled.View`
   width: ${dimensions.width}px;
 
@@ -15,7 +14,7 @@ export const Container = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-`;
+`
 
 export const Title = styled.Text`
   color: ${({ theme }) => theme.COLORS.GRAY_100};

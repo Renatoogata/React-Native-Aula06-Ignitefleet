@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import styled from "styled-components/native"
 
 export const Container = styled.TouchableOpacity`
   width: 100%;
@@ -12,7 +12,7 @@ export const Container = styled.TouchableOpacity`
 
   border-radius: 6px;
   margin-bottom: 12px;
-`;
+`
 
 export const Info = styled.View`
   flex: 1;

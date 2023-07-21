@@ -1,13 +1,13 @@
-import styled from 'styled-components/native';
+import styled from "styled-components/native"
 
 export const Container = styled.View`
   flex: 1;
   background-color: ${({ theme }) => theme.COLORS.GRAY_800};
-`;
+`
 
 export const Content = styled.View`
-    flex-grow: 1;
-    padding: 32px;
+  flex-grow: 1;
+  padding: 32px;
 `
 
 export const Label = styled.Text`
@@ -17,7 +17,7 @@ export const Label = styled.Text`
 
   margin-top: 32px;
   margin-bottom: 5px;
-`;
+`
 
 export const LicensePlate = styled.Text`
   color: ${({ theme }) => theme.COLORS.GRAY_100};

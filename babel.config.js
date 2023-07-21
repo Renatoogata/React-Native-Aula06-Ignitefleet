@@ -1,30 +1,30 @@
 module.exports = function (api) {
-  api.cache(true);
+  api.cache(true)
   return {
-    presets: ['babel-preset-expo'],
+    presets: ["babel-preset-expo"],
     plugins: [
       [
-        'module:react-native-dotenv',
+        "module:react-native-dotenv",
         {
-          'moduleName': '@env',
-          'allowUndefined': false,
+          moduleName: "@env",
+          allowUndefined: false
         }
       ],
       [
-        'module-resolver',
+        "module-resolver",
         {
-          root: ['./src'],
+          root: ["./src"],
           alias: {
-            '@theme': './src/theme',
-            '@assets': './src/assets',
-            '@screens': './src/screens',
-            '@components': './src/components',
-            '@routes': './src/routes',
-            '@libs': './src/libs',
-            '@utils': './src/utils',
+            "@theme": "./src/theme",
+            "@assets": "./src/assets",
+            "@screens": "./src/screens",
+            "@components": "./src/components",
+            "@routes": "./src/routes",
+            "@libs": "./src/libs",
+            "@utils": "./src/utils"
           }
         }
       ]
     ]
-  };
-};
+  }
+}

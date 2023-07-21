@@ -1,34 +1,35 @@
-import 'react-native-get-random-values'
-import '@libs/dayjs' // importando o dayjs para app
+import "react-native-get-random-values"
+import "@libs/dayjs" // importando o dayjs para app
 
-import { StatusBar } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { ThemeProvider } from 'styled-components/native'
-import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto';
-import { WifiSlash } from 'phosphor-react-native';
-import { useNetInfo } from '@react-native-community/netinfo'
+import { StatusBar } from "react-native"
+import { SafeAreaProvider } from "react-native-safe-area-context"
+import { ThemeProvider } from "styled-components/native"
+import {
+  useFonts,
+  Roboto_400Regular,
+  Roboto_700Bold
+} from "@expo-google-fonts/roboto"
+import { WifiSlash } from "phosphor-react-native"
+import { useNetInfo } from "@react-native-community/netinfo"
 
-import { REALM_APP_ID } from '@env';
-import { AppProvider, UserProvider } from '@realm/react'
+import { REALM_APP_ID } from "@env"
+import { AppProvider, UserProvider } from "@realm/react"
 
-import theme from '@theme/index';
+import theme from "@theme/index"
 
+import { RealmProvider, syncConfig } from "@libs/realm"
+import { Routes } from "@routes/index"
+import { SignIn } from "@screens/SignIn"
 
-import { RealmProvider, syncConfig } from '@libs/realm';
-import { Routes } from '@routes/index';
-import { SignIn } from "@screens/SignIn";
-
-import { Loading } from '@components/Loading';
-import { TopMessage } from '@components/TopMessage';
+import { Loading } from "@components/Loading"
+import { TopMessage } from "@components/TopMessage"
 
 export default function App() {
-  const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold });
-  const netInfo = useNetInfo(); // verificar se existe conexão com internet
+  const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold })
+  const netInfo = useNetInfo() // verificar se existe conexão com internet
 
   if (!fontsLoaded) {
-    return (
-      <Loading />
-    )
+    return <Loading />
   }
 
   return (
@@ -45,13 +46,9 @@ export default function App() {
             translucent
           />
 
-          {
-            !netInfo.isConnected &&
-            <TopMessage
-              title='Você está offline.'
-              icon={WifiSlash}
-            />
-          }
+          {!netInfo.isConnected && (
+            <TopMessage title="Você está offline." icon={WifiSlash} />
+          )}
 
           <UserProvider // responsável pela parte de autenticação,
             fallback={SignIn} // se não tiver usuário autentiado, ele chama o signIn
@@ -68,4 +65,3 @@ export default function App() {
     </AppProvider>
   )
 }
-
