@@ -7,11 +7,13 @@ import { useNavigation } from "@react-navigation/native"
 
 import {
   useForegroundPermissions,
+  requestBackgroundPermissionsAsync,
   watchPositionAsync,
   LocationAccuracy,
   LocationSubscription,
   LocationObjectCoords
 } from "expo-location"
+import { startLocationTask } from "@tasks/backgroundTaskLocation"
 
 import { useUser } from "@realm/react"
 import { useRealm } from "@libs/realm"
@@ -50,7 +52,7 @@ export function Departure() {
   const realm = useRealm() // criado na junto com o schema do realm para poder utilizar o banco offline
   const user = useUser() // pegando o usuario do realm (o que estou utilizando para atutenticação)
 
-  function handleDepartureRegister() {
+  async function handleDepartureRegister() {
     try {
       if (!licensePlateValidate(licensePlate)) {
         licensePlateRef.current?.focus() // levando o foco para esse input
@@ -69,7 +71,27 @@ export function Departure() {
         )
       }
 
+      if (!currentCords?.latitude && !currentCords?.longitude) {
+        return Alert.alert(
+          "Localização!",
+          "Não foi possível obter a localização atual. Tente novamente!"
+        )
+      }
+
       setIsRegistering(true)
+
+      const backgroundPermissions = await requestBackgroundPermissionsAsync()
+
+      if (!backgroundPermissions.granted) {
+        setIsRegistering(false)
+
+        return Alert.alert(
+          "Localização",
+          "É necessário que o App tenha acesso a localização em segundo plano. Acesse as configurações do dispositivo e habilite 'Permitir o tempo todo'"
+        )
+      }
+
+      await startLocationTask()
 
       // write é baseado em transações(vamos definir oq iremos modificar e se alguma etapa der errado ele desfaz as alterações)
       realm.write(() => {

@@ -21,6 +21,7 @@ import {
   AsyncMessage
 } from "./styles"
 import { getLastAsyncTimestamp } from "@libs/asyncStorage/syncStorage"
+import { stopLocationTask } from "@tasks/backgroundTaskLocation"
 
 type RouteParamsProps = {
   id: string
@@ -52,7 +53,7 @@ export function Arrival() {
     goBack()
   }
 
-  function handleArrivalRegister() {
+  async function handleArrivalRegister() {
     try {
       if (!historic) {
         return Alert.alert(
@@ -60,6 +61,8 @@ export function Arrival() {
           "Não foi possível objter os dados para registrar a chegada do veículo"
         )
       }
+
+      await stopLocationTask()
 
       realm.write(() => {
         historic.status = "arrival"

@@ -21,7 +21,8 @@ module.exports = function (api) {
             "@components": "./src/components",
             "@routes": "./src/routes",
             "@libs": "./src/libs",
-            "@utils": "./src/utils"
+            "@utils": "./src/utils",
+            "@tasks": "./src/tasks"
           }
         }
       ]
