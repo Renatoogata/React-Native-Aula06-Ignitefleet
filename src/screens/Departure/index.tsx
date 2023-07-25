@@ -29,8 +29,9 @@ import { Map } from "@components/Map"
 
 import { licensePlateValidate } from "@utils/licensePlateValidate"
 import { getAdressLocation } from "@utils/getAddressLocation"
+import { openSettings } from "@utils/openSettings"
 
-import { Container, Content, Message } from "./styles"
+import { Container, Content, Message, MessageContent } from "./styles"
 
 export function Departure() {
   const [description, setDescription] = useState("")
@@ -87,7 +88,8 @@ export function Departure() {
 
         return Alert.alert(
           "Localização",
-          "É necessário que o App tenha acesso a localização em segundo plano. Acesse as configurações do dispositivo e habilite 'Permitir o tempo todo'"
+          "É necessário que o App tenha acesso a localização em segundo plano. Acesse as configurações do dispositivo e habilite 'Permitir o tempo todo'",
+          [{ text: "Abrir configurações", onPress: openSettings }]
         )
       }
 
@@ -100,7 +102,14 @@ export function Departure() {
           Historic.generate({
             user_id: user!.id,
             license_plate: licensePlate.toUpperCase(),
-            description
+            description,
+            coords: [
+              {
+                latitude: currentCords.latitude,
+                longitude: currentCords.longitude,
+                timestamp: new Date().getTime()
+              }
+            ]
           })
         )
       })
@@ -154,11 +163,16 @@ export function Departure() {
     return (
       <Container>
         <Header title="Saída" />
-        <Message>
-          Você precisa permitir que o aplicativo tenha acesso a localização para
-          utilizar essa funcionalidade. Porfavor, acesse as configurações do
-          dispositivo para conceder essa permissão do aplicativo.
-        </Message>
+
+        <MessageContent>
+          <Message>
+            Você precisa permitir que o aplicativo tenha acesso a localização
+            para utilizar essa funcionalidade. Porfavor, acesse as configurações
+            do dispositivo para conceder essa permissão do aplicativo.
+          </Message>
+
+          <Button title="Abrir Configurações" onPress={openSettings} />
+        </MessageContent>
       </Container>
     )
   }

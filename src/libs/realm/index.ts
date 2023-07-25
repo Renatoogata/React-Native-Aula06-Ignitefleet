@@ -1,5 +1,8 @@
 import { createRealmContext } from "@realm/react"
+
 import { Historic } from "./schemas/Historic"
+import { Coords } from "./schemas/Coords"
+import { schemaVersion } from "realm"
 
 const realmAcessBehavior: Realm.OpenRealmBehaviorConfiguration = {
   type: Realm.OpenRealmBehaviorType.OpenImmediately // vai abrir o banco de dados utilizando a estratégia de sincronização
@@ -18,5 +21,6 @@ export const {
   useQuery, // implementar consultas no banco
   useObject // obter um objeto especifico
 } = createRealmContext({
-  schema: [Historic]
+  schema: [Historic, Coords],
+  schemaVersion: 1
 })
